@@ -1,0 +1,50 @@
+Aluno: Kelvin Zussa
+NoSqL
+1 - - Faça uma busca de quantos livros não estão com o status publicado e pageCount menor que 300
+1.1
+db.biblioteca.find({ status: { $ne: "PUBLISH" }, pageCount: { $lt: 300 }},{ title: 1, _id: 0})
+Evidência
+ 
+Selecionado o banco e a biblioteca, depois usado o find, e o $ne como note qual para trazer diferente de PUBLISH, e lt como less than 300 para pageCount de número de páginas, e projetado somente o title, e excluído o ID.
+
+1.2
+
+Faça uma busca de livros que contém as palavras MongoDB e SQL Server no título
+db.biblioteca.find({ $or: [{title: {$regex: /MongoDB/}},{ title: {$regex: /SQL Server/}}]},{title: 1,_id: 0})
+Evidência
+ 
+Usado operador OR para procurar as duas expressões e regex, pois se for uma consulta sem regex não teremos resultados
+1.3
+- Faça uma busca com expressão regular onde ISBN começa com 18
+db.biblioteca.find({isbn: {$regex:/^18/ }}, {isbn: 1, title: 1, _id: 0})
+Evidência
+ 
+Usado Regex e barras e sinal ^ para encontrar que começa com 18 
+2.4 - Usando Expressão Regular, busque livros que contém a palavra JAVA ou Mobile na descrição do livro (LongDescription), lembrando que deve trazer todas as palavras independente de começa com maiúsculo ou minúsculo
+db.biblioteca.find( { $or: [  { longDescription: { $regex: /java/i } },  { longDescription: { $regex: /mobile/i } } ] }, {  title: 1,  longDescription: 1,  _id: 0 })
+Evidência
+ 
+Foi preciso usar o i junto ao regex para poder consultar qualquer variação das expressões.
+
+Exercício 2: 
+Nas mesmas buscas do exercício anterior, traga apenas o número do resultado usando o contador
+2.1 Diferentes de publicados e menos de 300 páginas
+db.biblioteca.find({ status: { $ne: "PUBLISH" }, pageCount: { $lt: 300 }},{ title: 1, _id: 0}).count()
+Resultado 64
+Evidência
+ 
+
+2.2 Contém MongoDB e SQL Server no título
+db.biblioteca.find({ $or: [{title: {$regex: /MongoDB/ }},{ title: {$regex: /SQL Server/ }}]},{title: 1,_id: 0}).count()
+Resultado 10
+Evidência
+ 
+
+2.3 ISBN começa com 18
+db.biblioteca.find({isbn: {$regex:/^18/ }}, {isbn: 1, title: 1, _id: 0}).count()
+Resultado: 10
+ 
+2.4 – JAVA ou Mobile
+db.biblioteca.find( { $or: [{ longDescription:{ $regex: /java/i }},{longDescription:{$regex: /mobile/i}}]},{title: 1,longDescription: 1,  _id: 0 }).count()
+ 
+
